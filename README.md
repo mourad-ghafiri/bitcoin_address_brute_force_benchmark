@@ -82,6 +82,8 @@ memcpy(binary_address + 21, checksum, 4);
 
 // Step 8: Encode the result in Base58
 base58_encode(binary_address, 25, address);
+```
+
 Key Steps Explained:
 
 Private Key Generation: A random 256-bit number is generated using elliptic curve cryptography.
@@ -102,8 +104,7 @@ Base58 Encoding: The final address is encoded in Base58 to make it human-readabl
 2.1 Code Architecture
 The multi-process/multi-threaded design maximizes CPU utilization:
 
-c
-Copy
+```c
 // Process spawning in main()
 for (int i = 0; i < num_processes - 1; i++) {
     pid_t pid = fork();
@@ -123,6 +124,7 @@ void* thread_function(void* arg) {
         pthread_mutex_unlock(&shared_mem->mutex);
     }
 }
+```
 Key Features:
 
 12 processes × 8 threads = 96 concurrent workers
@@ -136,27 +138,28 @@ OpenSSL-optimized cryptographic operations
 2.2 Key Technical Components
 1. Elliptic Curve Mathematics
 
-c
-Copy
+```c
 EVP_PKEY_CTX *ctx = EVP_PKEY_CTX_new_id(EVP_PKEY_EC, NULL);
 EVP_PKEY_CTX_set_ec_paramgen_curve_nid(ctx, NID_secp256k1);
+```
+
 Uses Bitcoin's secp256k1 curve
 
 Each key generation involves modular arithmetic on a 256-bit prime field
 
 2. Hashing Pipeline
 
-c
-Copy
+```c
 EVP_Digest(..., EVP_sha256()); // SHA-256
 EVP_Digest(..., EVP_ripemd160()); // RIPEMD-160
+```
 Combines SHA-256's collision resistance with RIPEMD-160's compactness
 
 3. Base58 Encoding
 
-c
-Copy
+```c
 base58_encode(binary_address, 25, address);
+```
 Avoids ambiguous characters (0/O, I/l)
 
 Includes 4-byte checksum to detect errors
@@ -176,23 +179,24 @@ Average Rate	44,197 addr/s
 Peak Thread Rate	3,887 addr/s
 Process-Specific Performance
 
-text
-Copy
+```text
 Process 6 Results:
 - Rate: 3,852 addr/s
 - Thread Distribution:
   Thread 0: 2,521 addr
   Thread 4: 2,638 addr (Max)
+```
 <a name="32-statistical-significance"></a>
 
 3.2 Statistical Significance
 Collision Probabilities
 
-c
-Copy
+```c
 // From print_collision_probability()
 double prob_single_collision = known_addresses / total_addresses;
 double prob_yearly_collision = (known_addresses + yearly_new) / total_addresses;
+```
+
 Scenario	Probability	Equivalent Odds
 Existing Address	6.84×10⁻³⁹	1 in 146 quintillion universes
 1 Year Growth	6.84×10⁻³⁹	Unchanged (negligible growth)
@@ -202,21 +206,23 @@ Existing Address	6.84×10⁻³⁹	1 in 146 quintillion universes
 4. Time and Energy Analysis
 Time to Exhaustive Search
 
-c
-Copy
+```c
 // From print_time_analysis()
 double total_addresses = pow(2, 160);
 double years_needed = (total_addresses / addresses_per_second) / (365.25*24*3600);
+```
+
 Time Scale	Value	Cosmic Equivalent
 Seconds	3.31×10⁴³	10³³ × universe age
 Years	1.05×10³⁶	7.6×10²⁵ universe lifetimes
 Energy Costs
 
-c
-Copy
+```c
 // From print_advanced_analysis()
 const double watts_per_cpu = 65.0;
 double joules_per_address = (watts_per_cpu * 0.8) / addresses_per_second;
+```
+
 Metric	Value	Real-World Equivalent
 Energy per Address	1.18 mJ	1/1000 of a smartphone photo
 Yearly Energy	455 kWh	Powering 0.04 US homes
@@ -226,11 +232,12 @@ Yearly Energy	455 kWh	Powering 0.04 US homes
 5. Quantum Computing Reality Check
 Grover's Algorithm Impact
 
-c
-Copy
+```c
 // Quantum speedup calculation
 double quantum_speed = sqrt(total_addresses);
 double quantum_years = quantum_speed / 1e12 / (365*24*3600);
+```
+
 Metric	Classical	Quantum (1T ops/s)
 Search Time	1.05×10³⁶ years	3.83×10⁴ years
 Energy Requirement	10³⁰ kWh	10¹⁸ kWh
@@ -247,12 +254,13 @@ Bitcoin could soft-fork to quantum-resistant algorithms
 6. Security Implications
 Actual Attack Vectors vs Brute-Force
 
-c
-Copy
+```c
 // Real security concerns (not addressed in code)
 if (private_key_leaked) {
     steal_funds(); // 100% success rate
 }
+```
+
 Risk Factor	Probability	Mitigation
 Private Key Leak	High	Hardware wallets, air-gapping
 Address Reuse	Medium	Use new addresses per tx
