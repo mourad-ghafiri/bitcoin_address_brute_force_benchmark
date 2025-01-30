@@ -1,5 +1,5 @@
 # The Cryptographic Fortress of Bitcoin:  
-## Why Brute-Forcing Addresses is Mathematically Impossible
+## Why Brute-Forcing Addresses is Mathematically Difficult
 
 ---
 
