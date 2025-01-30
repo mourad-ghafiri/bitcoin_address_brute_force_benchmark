@@ -1,5 +1,4 @@
-# The Cryptographic Fortress of Bitcoin:  
-## Why Brute-Forcing Addresses is Mathematically Difficult
+# Bitcoin Address Brute Force Analysis Infographic
 
 ---
 
