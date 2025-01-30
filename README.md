@@ -292,6 +292,7 @@ While no system is perfectly secure, Bitcoin's address generation mechanism repr
 
 ## Code Execution Results on MacOS M2
 
+```text
 Starting multi-process benchmark with 12 processes, 8 threads each...
 Process 1 - Starting benchmark with 8 threads for 5 seconds...
 Process 2 - Starting benchmark with 8 threads for 5 seconds...
@@ -648,3 +649,4 @@ Optimization Recommendations:
    - Distribute work across GPUs
    - Use specialized hardware for hashing
    - Implement intelligent work distribution
+```
